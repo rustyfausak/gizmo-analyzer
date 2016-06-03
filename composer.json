@@ -1,0 +1,10 @@
+{
+    "name": "rustyfausak/gizmo",
+    "description": "A Rocket League replay analyzer.",
+    "require": {
+        "php": ">=5.5.9"
+    },
+    "autoload": {
+        "psr-4": { "Gizmo\\": "lib/" }
+    }
+}

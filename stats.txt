@@ -1,0 +1,29 @@
+analyze
+
+ball
+- % time in half
+- distance traveled
+- avg speed
+- avg elevation
+- time on ground
+- histogram of heights
+
+players
+- histogram of position
+- avg speed
+- max speed
+- avg elevation
+- num touches
+- num bumps
+- # dunks 50/50s won
+- max consecutive hits
+- hit graph
+- boost consumed
+- boost gained
+- boost overflow
+- #ballstats
+- # jumps
+- # double jumps
+- # jump histogram
+- time spent powerslide/airroll
+- distance driven backwards
