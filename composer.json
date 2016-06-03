@@ -1,5 +1,5 @@
 {
-    "name": "rustyfausak/gizmo",
+    "name": "rustyfausak/gizmo-analyzer",
     "description": "A Rocket League replay analyzer.",
     "require": {
         "php": ">=5.5.9"
