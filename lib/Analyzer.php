@@ -12,7 +12,7 @@ class Analyzer
 	public function analyze($path)
 	{
 		$stream = fopen($path, 'r');
-		$listener = new Listener();
+		$listener = new ReplayListener();
 		try {
 			$parser = new \JsonStreamingParser\Parser($stream, $listener);
 			$parser->parse();

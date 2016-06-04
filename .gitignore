@@ -2,7 +2,8 @@ composer.lock
 replays
 vendor
 generated-*
-lib/Models
+lib/Models/Base
+lib/Models/Map
 lib/z
 
 # Windows image file caches

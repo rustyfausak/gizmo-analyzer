@@ -2,19 +2,19 @@
 <database name="default" defaultIdMethod="native">
     <table name="games" phpName="Game" namespace="Gizmo\Models" package="Models">
         <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
-        <column name="version" type="integer" required="true" />
-        <column name="build_id" type="integer" required="true" />
-        <column name="build_version" type="varchar" size="64" required="true" />
-        <column name="date" type="timestamp" required="true" />
-        <column name="game_id" type="varchar" size="64" required="true" />
-        <column name="game_version" type="integer" required="true" />
-        <column name="map_name" type="varchar" size="64" required="true" />
-        <column name="match_type" type="varchar" size="64" required="true" />
-        <column name="player_name" type="varchar" size="255" required="true" />
-        <column name="primary_player_team" type="integer" required="true" />
-        <column name="replay_version" type="integer" required="true" />
-        <column name="team0_score" type="integer" required="true" />
-        <column name="team1_score" type="integer" required="true" />
-        <column name="team_size" type="integer" required="true" />
+        <column name="version" type="varchar" size="64" />
+        <column name="build_id" type="integer" />
+        <column name="build_version" type="varchar" size="64" />
+        <column name="date" type="timestamp" />
+        <column name="game_id" type="varchar" size="64" />
+        <column name="game_version" type="integer" />
+        <column name="map_name" type="varchar" size="64" />
+        <column name="match_type" type="varchar" size="64" />
+        <column name="player_name" type="varchar" size="255" />
+        <column name="primary_player_team" type="integer" />
+        <column name="replay_version" type="integer" />
+        <column name="team0_score" type="integer" />
+        <column name="team1_score" type="integer" />
+        <column name="team_size" type="integer" />
     </table>
 </database>
