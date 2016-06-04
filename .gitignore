@@ -1,6 +1,9 @@
 composer.lock
 replays
 vendor
+generated-*
+lib/Models
+lib/z
 
 # Windows image file caches
 Thumbs.db

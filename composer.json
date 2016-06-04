@@ -2,7 +2,9 @@
     "name": "rustyfausak/gizmo-analyzer",
     "description": "A Rocket League replay analyzer.",
     "require": {
-        "php": ">=5.5.9"
+        "php": ">=5.5.9",
+        "salsify/json-streaming-parser": "dev-master",
+        "propel/propel": "~2.0@dev"
     },
     "autoload": {
         "psr-4": { "Gizmo\\": "lib/" }

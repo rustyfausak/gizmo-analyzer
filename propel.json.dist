@@ -1,0 +1,8 @@
+{
+    "propel": {
+        "paths": {
+            "schemaDir": "C:\\github\\gizmo-php\\gizmo-analyzer",
+            "phpDir": "C:\\github\\gizmo-php\\gizmo-analyzer\\lib\\"
+        }
+    }
+}
