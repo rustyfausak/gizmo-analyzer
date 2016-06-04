@@ -1,15 +1,15 @@
-## Requirements
+### Requirements
 
 - PHP >= 5.5
 - MySQL
 
-## Configure
+### Configure
 
 - `composer install`
 - configure `propel.json` with database credentials
-- run `php vendor/propel/propel/bin/propel.php config:convert`
+- `php vendor/propel/propel/bin/propel.php config:convert`
 
-## Reset Database
+### Reset Database
 
 - `php vendor/propel/propel/bin/propel.php sql:build`
 - `php vendor/propel/propel/bin/propel.php sql:insert`
@@ -19,6 +19,6 @@ or
 
 - run `reset-db.bat`
 
-## Analyze Replay JSON
+### Analyze Replay JSON
 
 - `php test.php <replay>`
