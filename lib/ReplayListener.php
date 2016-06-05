@@ -72,20 +72,20 @@ class ReplayListener extends BuildListener
 	public function processMeta($meta)
 	{
 		$this->game->fromArray([
-			'version'        => self::getElem($meta, 'version1') . '.' . self::getElem($meta, 'version2'),
-			'build_id'       => self::getElem($meta, ['properties', 'BuildID']),
-			'build_version'  => self::getElem($meta, ['properties', 'BuildVersion']),
-			'date'           => self::fromDateStr(self::getElem($meta, ['properties', 'Date'])),
-			'game_id'        => self::getElem($meta, ['properties', 'Id']),
-			'game_version'   => self::getElem($meta, ['properties', 'GameVersion']),
-			'map_name'       => self::getElem($meta, ['properties', 'MapName']),
-			'match_type'     => self::getElem($meta, ['properties', 'MatchType']),
-			'player_name'    => self::getElem($meta, ['properties', 'PlayerName']),
-			'primary_player_team' => self::getElem($meta, ['properties', 'PrimaryPlayerTeam']),
-			'replay_version' => self::getElem($meta, ['properties', 'ReplayVersion']),
-			'team0_score'    => self::getElem($meta, ['properties', 'Team0Score']),
-			'team1_score'    => self::getElem($meta, ['properties', 'Team1Score']),
-			'team_size'      => self::getElem($meta, ['properties', 'TeamSize'])
+			'version'        => Helper::getElem($meta, 'version1') . '.' . Helper::getElem($meta, 'version2'),
+			'build_id'       => Helper::getElem($meta, ['properties', 'BuildID']),
+			'build_version'  => Helper::getElem($meta, ['properties', 'BuildVersion']),
+			'date'           => self::fromDateStr(Helper::getElem($meta, ['properties', 'Date'])),
+			'game_id'        => Helper::getElem($meta, ['properties', 'Id']),
+			'game_version'   => Helper::getElem($meta, ['properties', 'GameVersion']),
+			'map_name'       => Helper::getElem($meta, ['properties', 'MapName']),
+			'match_type'     => Helper::getElem($meta, ['properties', 'MatchType']),
+			'player_name'    => Helper::getElem($meta, ['properties', 'PlayerName']),
+			'primary_player_team' => Helper::getElem($meta, ['properties', 'PrimaryPlayerTeam']),
+			'replay_version' => Helper::getElem($meta, ['properties', 'ReplayVersion']),
+			'team0_score'    => Helper::getElem($meta, ['properties', 'Team0Score']),
+			'team1_score'    => Helper::getElem($meta, ['properties', 'Team1Score']),
+			'team_size'      => Helper::getElem($meta, ['properties', 'TeamSize'])
 		], Models\Map\GameTableMap::TYPE_FIELDNAME);
 		$this->game->save();
 	}
@@ -96,14 +96,20 @@ class ReplayListener extends BuildListener
 	public function processFrame($frame)
 	{
 		$this->frame_number++;
-		$time = self::getElem($frame, 'time');
-		$delta = self::getElem($frame, 'delta');
+		print "FRAME #{$this->frame_number}\n";
+		$time = Helper::getElem($frame, 'time');
+		$delta = Helper::getElem($frame, 'delta');
 		if (array_key_exists('replications', $frame)) {
 			foreach ($frame['replications'] as $replication) {
 				$this->processReplication($replication);
 			}
+			foreach ($this->actors as $actor) {
+				if ($actor->class_name == 'TAGame.Car_TA') {
+					print $actor . "\n";
+				}
+			}
 		}
-		exit;
+		fgets(STDIN);
 	}
 
 	/**
@@ -111,29 +117,28 @@ class ReplayListener extends BuildListener
 	 */
 	public function processReplication($replication)
 	{
-		print_r($replication);
-		exit;
-	}
-
-	/**
-	 * @param array $arr
-	 * @param string|array $keys
-	 * @param mixed $default
-	 * @return mixed
-	 */
-	public static function getElem($arr, $keys, $default = null)
-	{
-		if (!is_array($keys)) {
-			$keys = [$keys];
+		$actor_id = Helper::getElem($replication, 'actor_id');
+		if ($actor_id === null) {
+			throw new \Exception("No actor ID found in replication.");
 		}
-		$cur = $arr;
-		foreach ($keys as $key) {
-			if (!array_key_exists($key, $cur)) {
-				return $default;
-			}
-			$cur = $cur[$key];
+		switch (Helper::getElem($replication, 'state')) {
+			case 'opening':
+				$this->actors[$actor_id] = Actor::create($replication);
+				break;
+			case 'existing':
+				if (!array_key_exists($actor_id, $this->actors)) {
+					throw new \Exception("Could not find actor with ID '{$actor_id}'.");
+				}
+				$this->actors[$actor_id]->update($replication);
+				break;
+			case 'closing':
+				if (!array_key_exists($actor_id, $this->actors)) {
+					throw new \Exception("Could not find actor with ID '{$actor_id}'.");
+				}
+				$this->actors[$actor_id]->close();
+				unset($this->actors[$actor_id]);
+				break;
 		}
-		return $cur;
 	}
 
 	/**
