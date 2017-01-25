@@ -10,11 +10,74 @@
         <column name="game_version" type="integer" />
         <column name="map_name" type="varchar" size="64" />
         <column name="match_type" type="varchar" size="64" />
-        <column name="player_name" type="varchar" size="255" />
+        <column name="player_name" type="varchar" size="256" />
         <column name="primary_player_team" type="integer" />
         <column name="replay_version" type="integer" />
         <column name="team0_score" type="integer" />
         <column name="team1_score" type="integer" />
         <column name="team_size" type="integer" />
+    </table>
+
+    <table name="frames" phpName="Frame" namespace="Gizmo\Models" package="Models">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="game_id" type="integer" required="true" />
+        <column name="number" type="integer" required="true" />
+        <column name="time" type="float" required="true" />
+        <column name="delta" type="float" required="true" />
+        <foreign-key foreignTable="games">
+            <reference local="game_id" foreign="id" />
+        </foreign-key>
+        <index>
+            <index-column name="number" />
+        </index>
+        <unique>
+            <unique-column name="game_id" />
+            <unique-column name="number" />
+        </unique>
+    </table>
+
+    <table name="actors" phpName="Actor" namespace="Gizmo\Models" package="Models">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="game_id" type="integer" required="true" />
+        <column name="netstream_id" type="integer" required="true" />
+        <column name="created_at_frame_number" type="integer" required="true" />
+        <column name="destroyed_at_frame_number" type="integer" />
+        <column name="class_name" type="varchar" size="256" required="true" />
+        <column name="object_name" type="varchar" size="256" required="true" />
+        <column name="initial_location" type="varchar" size="256" />
+        <column name="initial_rotation" type="varchar" size="256" />
+        <foreign-key foreignTable="games">
+            <reference local="game_id" foreign="id" />
+        </foreign-key>
+        <foreign-key foreignTable="frames" name="created_at_frame">
+            <reference local="created_at_frame_number" foreign="number" phpName="createAtFrame" />
+        </foreign-key>
+        <foreign-key foreignTable="frames" name="deleted_at_frame">
+            <reference local="destroyed_at_frame_number" foreign="number" phpName="destroyedAtFrame" />
+        </foreign-key>
+        <index>
+            <index-column name="netstream_id" />
+        </index>
+    </table>
+
+    <table name="properties" phpName="Property" namespace="Gizmo\Models" package="Models">
+        <column name="id" type="integer" required="true" primaryKey="true" autoIncrement="true"/>
+        <column name="name" type="varchar" size="256" required="true" />
+        <column name="frame_number" type="integer" required="true" />
+        <column name="actor_id" type="integer" required="true" />
+        <column name="checksum" type="varchar" size="256" required="true" />
+        <column name="value_boolean" type="boolean" />
+        <column name="value_int" type="integer" />
+        <column name="value_string" type="varchar" size="256" />
+        <column name="value_float" type="float" />
+        <foreign-key foreignTable="frames">
+            <reference local="frame_number" foreign="number" />
+        </foreign-key>
+        <foreign-key foreignTable="actors">
+            <reference local="actor_id" foreign="id" />
+        </foreign-key>
+        <index>
+            <index-column name="name" />
+        </index>
     </table>
 </database>

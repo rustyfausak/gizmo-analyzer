@@ -5,6 +5,7 @@ generated-*
 lib/Models/Base
 lib/Models/Map
 lib/z
+img/*
 
 # Windows image file caches
 Thumbs.db
@@ -53,3 +54,4 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+asdf.txt

@@ -24,4 +24,25 @@ class Helper
 		}
 		return $cur;
 	}
+
+	/**
+	 * @param string $str
+	 * @return string|null
+	 */
+	public static function fromDateStr($str)
+	{
+		$parts = explode(':', $str);
+		if (sizeof($parts) != 2) {
+			return null;
+		}
+		$time_parts = explode('-', $parts[1]);
+		if (sizeof($time_parts) != 2) {
+			return null;
+		}
+		$time = strtotime($parts[0] . ' ' . $time_parts[0] . ':' . $time_parts[1]);
+		if (!$time) {
+			return null;
+		}
+		return date("Y-m-d H:i:s", $time);
+	}
 }

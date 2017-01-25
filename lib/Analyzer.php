@@ -2,6 +2,9 @@
 
 namespace Gizmo;
 
+use \JsonStreamingParser\Parser;
+use \Gizmo\ReplayListener;
+
 class Analyzer
 {
 	public function __construct() {}
@@ -14,7 +17,7 @@ class Analyzer
 		$stream = fopen($path, 'r');
 		$listener = new ReplayListener();
 		try {
-			$parser = new \JsonStreamingParser\Parser($stream, $listener);
+			$parser = new Parser($stream, $listener);
 			$parser->parse();
 			fclose($stream);
 		}
